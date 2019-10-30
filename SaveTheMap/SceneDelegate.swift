@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = scene as? UIWindowScene else { return }
         
         let nav = UINavigationController(
-            rootViewController: RegionsView(style: .grouped))
+            rootViewController: RegionsView(region: Repository.shared.region))
         let navBarAppearance = UINavigationBarAppearance()
         navBarAppearance.configureWithOpaqueBackground()
         navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]

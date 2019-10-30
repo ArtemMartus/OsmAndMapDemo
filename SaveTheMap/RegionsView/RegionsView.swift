@@ -10,8 +10,21 @@ import UIKit
 
 class RegionsView: UITableViewController{
     var delegate: RegionsTableDelegate!
+    var region: Region!
+    var showMemory = true
+    
+
+    init(region: Region) {
+        super.init(style: .grouped)
+        self.region = region
+    }
+    
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     override func viewDidLoad() {
-        delegate = RegionsTableDelegate(view: self)
+        delegate = RegionsTableDelegate(view: self,region: region,showMemory: showMemory)
         
         title = "Download Maps"
         view.backgroundColor = UIColor(named: "Background")
@@ -20,9 +33,5 @@ class RegionsView: UITableViewController{
         tableView.delegate = delegate
         tableView.register(FreeMemoryView.self, forCellReuseIdentifier: "memory")
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "regular")
-        setupLayout()
-    }
-    
-    func setupLayout(){
     }
 }
