@@ -9,21 +9,31 @@
 /* Begin PBXBuildFile section */
 		E56DF078236978590082BBD3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56DF077236978590082BBD3 /* AppDelegate.swift */; };
 		E56DF07A236978590082BBD3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56DF079236978590082BBD3 /* SceneDelegate.swift */; };
-		E56DF07C236978590082BBD3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56DF07B236978590082BBD3 /* ViewController.swift */; };
-		E56DF07F236978590082BBD3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E56DF07D236978590082BBD3 /* Main.storyboard */; };
 		E56DF0812369785A0082BBD3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E56DF0802369785A0082BBD3 /* Assets.xcassets */; };
 		E56DF0842369785A0082BBD3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E56DF0822369785A0082BBD3 /* LaunchScreen.storyboard */; };
+		E56DF08E236979FA0082BBD3 /* RegionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56DF08D236979FA0082BBD3 /* RegionsView.swift */; };
+		E56DF0902369870D0082BBD3 /* RegionsTableDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56DF08F2369870D0082BBD3 /* RegionsTableDelegate.swift */; };
+		E56DF09223698AC40082BBD3 /* FreeMemoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56DF09123698AC40082BBD3 /* FreeMemoryView.swift */; };
+		E56DF0962369A7BC0082BBD3 /* regions.xml in Resources */ = {isa = PBXBuildFile; fileRef = E56DF0952369A7BC0082BBD3 /* regions.xml */; };
+		E56DF0982369A8880082BBD3 /* Region.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56DF0972369A8880082BBD3 /* Region.swift */; };
+		E56DF09A2369A9090082BBD3 /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56DF0992369A9090082BBD3 /* Repository.swift */; };
+		E56DF09C2369BA350082BBD3 /* RegionXMLDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56DF09B2369BA350082BBD3 /* RegionXMLDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E56DF074236978590082BBD3 /* SaveTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SaveTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E56DF077236978590082BBD3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E56DF079236978590082BBD3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E56DF07B236978590082BBD3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		E56DF07E236978590082BBD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E56DF0802369785A0082BBD3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E56DF0832369785A0082BBD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E56DF0852369785A0082BBD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E56DF08D236979FA0082BBD3 /* RegionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionsView.swift; sourceTree = "<group>"; };
+		E56DF08F2369870D0082BBD3 /* RegionsTableDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionsTableDelegate.swift; sourceTree = "<group>"; };
+		E56DF09123698AC40082BBD3 /* FreeMemoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeMemoryView.swift; sourceTree = "<group>"; };
+		E56DF0952369A7BC0082BBD3 /* regions.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = regions.xml; sourceTree = "<group>"; };
+		E56DF0972369A8880082BBD3 /* Region.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Region.swift; sourceTree = "<group>"; };
+		E56DF0992369A9090082BBD3 /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
+		E56DF09B2369BA350082BBD3 /* RegionXMLDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionXMLDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +66,52 @@
 		E56DF076236978590082BBD3 /* SaveTheMap */ = {
 			isa = PBXGroup;
 			children = (
+				E56DF0932369A7720082BBD3 /* Repository */,
+				E56DF08C236979D30082BBD3 /* RegionsView */,
 				E56DF077236978590082BBD3 /* AppDelegate.swift */,
 				E56DF079236978590082BBD3 /* SceneDelegate.swift */,
-				E56DF07B236978590082BBD3 /* ViewController.swift */,
-				E56DF07D236978590082BBD3 /* Main.storyboard */,
+				E56DF08B236979B10082BBD3 /* Supporting files */,
+			);
+			path = SaveTheMap;
+			sourceTree = "<group>";
+		};
+		E56DF08B236979B10082BBD3 /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
 				E56DF0802369785A0082BBD3 /* Assets.xcassets */,
+				E56DF0952369A7BC0082BBD3 /* regions.xml */,
 				E56DF0822369785A0082BBD3 /* LaunchScreen.storyboard */,
 				E56DF0852369785A0082BBD3 /* Info.plist */,
 			);
-			path = SaveTheMap;
+			name = "Supporting files";
+			sourceTree = "<group>";
+		};
+		E56DF08C236979D30082BBD3 /* RegionsView */ = {
+			isa = PBXGroup;
+			children = (
+				E56DF08D236979FA0082BBD3 /* RegionsView.swift */,
+				E56DF08F2369870D0082BBD3 /* RegionsTableDelegate.swift */,
+				E56DF09123698AC40082BBD3 /* FreeMemoryView.swift */,
+			);
+			path = RegionsView;
+			sourceTree = "<group>";
+		};
+		E56DF0932369A7720082BBD3 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				E56DF0942369A77D0082BBD3 /* Plain objects */,
+				E56DF0992369A9090082BBD3 /* Repository.swift */,
+				E56DF09B2369BA350082BBD3 /* RegionXMLDelegate.swift */,
+			);
+			name = Repository;
+			sourceTree = "<group>";
+		};
+		E56DF0942369A77D0082BBD3 /* Plain objects */ = {
+			isa = PBXGroup;
+			children = (
+				E56DF0972369A8880082BBD3 /* Region.swift */,
+			);
+			name = "Plain objects";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +174,7 @@
 			files = (
 				E56DF0842369785A0082BBD3 /* LaunchScreen.storyboard in Resources */,
 				E56DF0812369785A0082BBD3 /* Assets.xcassets in Resources */,
-				E56DF07F236978590082BBD3 /* Main.storyboard in Resources */,
+				E56DF0962369A7BC0082BBD3 /* regions.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,23 +185,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E56DF07C236978590082BBD3 /* ViewController.swift in Sources */,
+				E56DF09A2369A9090082BBD3 /* Repository.swift in Sources */,
+				E56DF08E236979FA0082BBD3 /* RegionsView.swift in Sources */,
+				E56DF09C2369BA350082BBD3 /* RegionXMLDelegate.swift in Sources */,
+				E56DF09223698AC40082BBD3 /* FreeMemoryView.swift in Sources */,
 				E56DF078236978590082BBD3 /* AppDelegate.swift in Sources */,
+				E56DF0982369A8880082BBD3 /* Region.swift in Sources */,
 				E56DF07A236978590082BBD3 /* SceneDelegate.swift in Sources */,
+				E56DF0902369870D0082BBD3 /* RegionsTableDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		E56DF07D236978590082BBD3 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E56DF07E236978590082BBD3 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		E56DF0822369785A0082BBD3 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -294,7 +338,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.upsage.SaveTheMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -312,7 +356,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.upsage.SaveTheMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
