@@ -91,7 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				E56DF0932369A7720082BBD3 /* Repository */,
-				E56DF08C236979D30082BBD3 /* RegionsView */,
+				E56DF0A0236A207E0082BBD3 /* Regions View Related */,
 				E56DF077236978590082BBD3 /* AppDelegate.swift */,
 				E56DF079236978590082BBD3 /* SceneDelegate.swift */,
 				E56DF08B236979B10082BBD3 /* Supporting files */,
@@ -108,16 +108,6 @@
 				E56DF0852369785A0082BBD3 /* Info.plist */,
 			);
 			name = "Supporting files";
-			sourceTree = "<group>";
-		};
-		E56DF08C236979D30082BBD3 /* RegionsView */ = {
-			isa = PBXGroup;
-			children = (
-				E56DF09D236A1F410082BBD3 /* Cells */,
-				E56DF08D236979FA0082BBD3 /* RegionsView.swift */,
-				E56DF08F2369870D0082BBD3 /* RegionsTableDelegate.swift */,
-			);
-			path = RegionsView;
 			sourceTree = "<group>";
 		};
 		E56DF0932369A7720082BBD3 /* Repository */ = {
@@ -137,13 +127,23 @@
 			name = "Plain objects";
 			sourceTree = "<group>";
 		};
-		E56DF09D236A1F410082BBD3 /* Cells */ = {
+		E56DF0A0236A207E0082BBD3 /* Regions View Related */ = {
+			isa = PBXGroup;
+			children = (
+				E56DF0A1236A20DD0082BBD3 /* Table View Cells */,
+				E56DF08D236979FA0082BBD3 /* RegionsView.swift */,
+				E56DF08F2369870D0082BBD3 /* RegionsTableDelegate.swift */,
+			);
+			name = "Regions View Related";
+			sourceTree = "<group>";
+		};
+		E56DF0A1236A20DD0082BBD3 /* Table View Cells */ = {
 			isa = PBXGroup;
 			children = (
 				E56DF09123698AC40082BBD3 /* FreeMemoryView.swift */,
 				E56DF09E236A1FC50082BBD3 /* RegionCell.swift */,
 			);
-			name = Cells;
+			name = "Table View Cells";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
