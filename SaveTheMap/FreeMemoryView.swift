@@ -25,13 +25,27 @@ class FreeMemoryView: UITableViewCell {
     
     func commonInit(){
 //        let container = UIView()
+        let fileURL = URL(fileURLWithPath: NSHomeDirectory() as String)
+        var gb:Float!
+        var overallMemory: Float!
+        
+        do {
+            let values = try fileURL.resourceValues(forKeys: [.volumeTotalCapacityKey,.volumeAvailableCapacityKey])
+            overallMemory = Float(values.volumeTotalCapacity!)/(1024*1024*1024)
+            gb = Float(values.volumeAvailableCapacity!)/(1024*1024*1024)
+        } catch {
+            fatalError("Error retrieving capacity: \(error.localizedDescription)")
+        }
+        
         contentView.backgroundColor = UIColor(named: "CellBackground")
         let deviceMemory = UILabel()
-        let gb = Float(3.15)
-        let overallMemory = Float(16)
+        
         deviceMemory.text = "Device memory"
         freeMemory = UILabel()
-        freeMemory.text = "Free \(gb) Gb"
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+
+        freeMemory.text = "Free \(formatter.string(for:gb)!) Gb"
         freeMemory.textAlignment = .right
         progressView = UIProgressView()
         

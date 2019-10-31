@@ -27,49 +27,47 @@ class Repository {
             .appendingPathComponent(filename,isDirectory: false)
         do {
             if try fileUrl.checkResourceIsReachable() {
-                print("FILE \(filename) AVAILABLE")
+//                print("FILE \(filename) AVAILABLE")
                 return true
             }
         } catch{
-//            print("Error? \(error.localizedDescription)")
+            //            print("Error? \(error.localizedDescription)")
         }
         return false
     }
     
-    func placeMapInDownloadQueue(id: String!,progress:@escaping (Progress)->Void){
-        queue.async {
-            [weak self] in
-            guard self != nil else {return}
+    func placeMapInDownloadQueue(id: String!,progress:@escaping (Progress)->Void, done: @escaping (Bool)->Void){
+        
+        let manager = Alamofire.SessionManager.default
+        let destination: DownloadRequest.DownloadFileDestination = { _, _ in
+            var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            documentsURL.appendPathComponent(id)
+//            print(documentsURL)
+            return (documentsURL, [.createIntermediateDirectories])
+        }
+        
+        manager.download((base_url) + id, to: destination)
             
-            let manager = Alamofire.SessionManager.default
-            let destination: DownloadRequest.DownloadFileDestination = { _, _ in
-                var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                documentsURL.appendPathComponent(id)
-                print(documentsURL)
-                return (documentsURL, [.createIntermediateDirectories])
-            }
+            .downloadProgress(queue: queue, closure: progress)
+            .validate { request, response, temporaryURL, destinationURL in
+                print("Validate: success")
+                return .success
+        }
             
-            manager.download((self?.base_url)! + id, to: destination)
+        .responseData { response in
+            if let destinationUrl = response.destinationURL {
+                print(destinationUrl)
                 
-                .downloadProgress(queue: .main, closure: progress)
-                .validate { request, response, temporaryURL, destinationURL in
-                    print("Validate: success")
-                    return .success
-            }
-                
-            .responseData { response in
-                if let destinationUrl = response.destinationURL {
-                    print(destinationUrl)
-                    
-                    if let statusCode = (response.response)?.statusCode {
-                        print("Success: \(statusCode)")
-                    }
-                    
-                } else {
-                    print("Response url-optional check failed")
+                if let statusCode = (response.response)?.statusCode {
+                    print("Success: \(statusCode)")
+                    done(true)
                 }
+                
+            } else {
+                print("Response url-optional check failed")
             }
         }
+        
     }
     
     private let base_url = "http://dl2.osmand.net/download?standard=yes&file="

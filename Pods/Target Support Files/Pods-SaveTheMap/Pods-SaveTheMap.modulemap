@@ -1,0 +1,6 @@
+framework module Pods_SaveTheMap {
+  umbrella header "Pods-SaveTheMap-umbrella.h"
+
+  export *
+  module * { export * }
+}

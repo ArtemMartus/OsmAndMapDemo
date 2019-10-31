@@ -23,6 +23,7 @@ class RegionsView: UITableViewController{
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     override func viewDidLoad() {
         delegate = RegionsTableDelegate(view: self,region: region,showMemory: showMemory)
         
@@ -31,7 +32,7 @@ class RegionsView: UITableViewController{
         tableView.separatorColor = UIColor(named: "Separator")
         tableView.dataSource = delegate
         tableView.delegate = delegate
-        tableView.register(FreeMemoryView.self, forCellReuseIdentifier: "memory")
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "regular")
+        tableView.register(FreeMemoryView.self, forCellReuseIdentifier: FreeMemoryID)
+        tableView.register(RegionCell.self, forCellReuseIdentifier: RegionCellID)
     }
 }

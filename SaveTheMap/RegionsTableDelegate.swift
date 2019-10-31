@@ -7,6 +7,10 @@
 //
 
 import UIKit
+import Dispatch
+
+let RegionCellID = "regular"
+let FreeMemoryID = "memory"
 
 class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource{
     weak var rootView: RegionsView?
@@ -40,19 +44,25 @@ class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 && showMemory {
-            return tableView.dequeueReusableCell(withIdentifier: "memory") as! FreeMemoryView
+            return tableView.dequeueReusableCell(
+                withIdentifier: FreeMemoryID) as! FreeMemoryView
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: "regular")!
         
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: RegionCellID, for: indexPath) as! RegionCell
         let item = region.subregions[indexPath.row]
+        
+        
+        cell.setProgress(item: item)
         cell.textLabel?.text = item.displayName()
         cell.imageView?.image = UIImage(named: "ic_custom_show_on_map")!.withRenderingMode(.alwaysTemplate)
         cell.imageView?.tintColor = UIColor.gray
+        
         if item.downloadable {
-            if Repository.shared.checkMapDownloaded(id: item.formatId()) {
+            if !item.isDownloading && Repository.shared.checkMapDownloaded(id: item.formatId()) {
                 cell.accessoryView = nil
                 cell.imageView?.tintColor = UIColor.green
-//                print("Item \(item.formatId()) downloaded")
+                //                print("Item \(item.formatId()) downloaded")
             } else {
                 cell.accessoryView = UIImageView(image: UIImage(named: "ic_custom_import"))
             }
@@ -65,14 +75,42 @@ class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 1 && showMemory {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        if indexPath.section == 1 && showMemory || !showMemory{
             let item = region.subregions[indexPath.row]
+            if item.isDownloading {
+                return // if we have any progress - no tap handling required
+            }
             
             if item.downloadable {
-                //should check if already downloaded
-                Repository.shared.placeMapInDownloadQueue(id: item.formatId()) { progress in
-                    print("Callback progress = \(progress.fractionCompleted*100)")
-                }
+                item.isDownloading = true
+                // set downloadProgress to some minimum value just
+                // for progress view to appear before real download starts
+                // in case we have other downloads in queue so user knows
+                // something is happening
+                Repository.shared.placeMapInDownloadQueue(id: item.formatId(),progress: { progress in
+                    //                    print("download progress \(value)")
+                    DispatchQueue.main.async {
+                        item.downloadProgress = progress.fractionCompleted
+                        tableView.reloadData()
+                        //                        tableView.beginUpdates()
+                        //                        tableView.reloadRows(at: [indexPath], with: .none)
+                        //                        tableView.endUpdates()
+                    }
+                }, done: { result in
+                    DispatchQueue.main.async {
+                        item.isDownloading = false
+                        item.downloadProgress = 0
+                        print("done called")
+                        tableView.reloadData()
+                    }
+                })
+                tableView.reloadData()
+                //
+                //                tableView.beginUpdates()
+                //                tableView.reloadRows(at: [indexPath], with: .none)
+                //                tableView.endUpdates()
             } else if item.hasSubregions {
                 let viewController = RegionsView(region: item)
                 viewController.showMemory = false
@@ -80,6 +118,5 @@ class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource{
                     .pushViewController(viewController, animated: true)
             }
         }
-        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
