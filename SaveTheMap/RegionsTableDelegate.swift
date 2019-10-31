@@ -79,7 +79,7 @@ class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource{
         
         if indexPath.section == 1 && showMemory || !showMemory{
             let item = region.subregions[indexPath.row]
-            if item.isDownloading {
+            if item.isDownloading || Repository.shared.checkMapDownloaded(id: item.formatId()){
                 return // if we have any progress - no tap handling required
             }
             
@@ -93,7 +93,7 @@ class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource{
                     //                    print("download progress \(value)")
                     DispatchQueue.main.async {
                         item.downloadProgress = progress.fractionCompleted
-                        tableView.reloadData()
+                        self.rootView?.tableView.reloadData()
                         //                        tableView.beginUpdates()
                         //                        tableView.reloadRows(at: [indexPath], with: .none)
                         //                        tableView.endUpdates()
@@ -103,7 +103,7 @@ class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource{
                         item.isDownloading = false
                         item.downloadProgress = 0
                         print("done called")
-                        tableView.reloadData()
+                        self.rootView?.tableView.reloadData()
                     }
                 })
                 tableView.reloadData()
