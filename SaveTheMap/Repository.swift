@@ -19,7 +19,7 @@ class Repository {
     
     var region: Region!
     
-    func checkMapDownloaded(id filename: String)->Bool{
+    func checkMapDownloaded(id filename: String) -> Bool{
         let fileManager = FileManager.default
         let filePath = fileManager.urls(for:
             .documentDirectory, in: .userDomainMask)[0]
@@ -30,18 +30,18 @@ class Repository {
                 //                print("FILE \(filename) AVAILABLE")
                 return true
             }
-        } catch{
+        } catch {
             //            print("Error? \(error.localizedDescription)")
         }
         return false
     }
     
-    typealias ProgressCallback =  (Progress)->Void
-    typealias DoneCallback = (Bool)->Void
+    typealias ProgressCallback =  (Progress) -> Void
+    typealias DoneCallback = (Bool) -> Void
     
     private var downloadQueue = [(String, ProgressCallback, DoneCallback)]()
     
-    func placeMapInDownloadQueue(id: String!,progress:@escaping ProgressCallback, done: @escaping DoneCallback){
+    func placeMapInDownloadQueue(id: String!,progress:@escaping ProgressCallback, done: @escaping DoneCallback) {
         
         if downloadQueue.isEmpty {
             downloadQueue.append((id,progress,done))
@@ -51,14 +51,14 @@ class Repository {
         }
     }
     
-    private func sequentialDownload(done: DoneCallback, value: Bool){
+    private func sequentialDownload(done: DoneCallback, value: Bool) {
         done(value)
         if downloadQueue.count > 0 {
             download()
         }
     }
     
-    private func download(){
+    private func download() {
         let (id,progress,done) = downloadQueue.first!
         
         let manager = Alamofire.SessionManager.default
@@ -69,10 +69,10 @@ class Repository {
             return (documentsURL, [.createIntermediateDirectories])
         }
         
-        manager.download((self.base_url) + id, to: destination)
-            
+        manager
+            .download(self.base_url + id, to: destination)
             .downloadProgress(closure: progress)
-            .validate { request, response, temporaryURL, destinationURL in
+            .validate { _,_,_,_ in
                 print("Validate: success")
                 return .success
         }
@@ -84,7 +84,7 @@ class Repository {
                 if let statusCode = (response.response)?.statusCode {
                     print("Success: \(statusCode)")
                     self.downloadQueue.removeFirst()
-                    self.sequentialDownload(done:done,value:true)
+                    self.sequentialDownload(done: done, value: true)
                 }
                 
             } else {
@@ -96,7 +96,7 @@ class Repository {
     
     private let base_url = "http://dl2.osmand.net/download?standard=yes&file="
     
-    private func formRegion(data: XML.Element,parentId: String)->Region{
+    private func formRegion(data: XML.Element,parentId: String) -> Region{
         let region = Region()
         region.name = data.attributes["name"]!
         if region.name == "europe" { region.net_id = "europe" } else {
@@ -126,13 +126,13 @@ class Repository {
         return region
     }
     
-    private init(){
-        if let path = Bundle.main.url(forResource: "regions", withExtension: "xml"){
+    private init() {
+        if let path = Bundle.main.url(forResource: "regions", withExtension: "xml") {
             let xml = XML.parse(try! Data(contentsOf: path)) ["regions_list"].element!
             
             for i in xml.childElements {
                 if i.attributes["name"]! == "europe" {
-                    region = formRegion(data: i,parentId: "")
+                    region = formRegion(data: i, parentId: "")
                 }
             }
             

@@ -23,16 +23,15 @@ class FreeMemoryView: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func commonInit(){
-//        let container = UIView()
-        let fileURL = URL(fileURLWithPath: NSHomeDirectory() as String)
-        var gb:Float!
+    func commonInit() {
+        let fileURL = URL(fileURLWithPath: NSHomeDirectory())
+        var gb: Float!
         var overallMemory: Float!
         
         do {
-            let values = try fileURL.resourceValues(forKeys: [.volumeTotalCapacityKey,.volumeAvailableCapacityKey])
-            overallMemory = Float(values.volumeTotalCapacity!)/(1024*1024*1024)
-            gb = Float(values.volumeAvailableCapacity!)/(1024*1024*1024)
+            let values = try fileURL.resourceValues(forKeys: [.volumeTotalCapacityKey, .volumeAvailableCapacityKey])
+            overallMemory = Float(values.volumeTotalCapacity!) / (1024 * 1024 * 1024)
+            gb = Float(values.volumeAvailableCapacity!) / (1024 * 1024 * 1024)
         } catch {
             fatalError("Error retrieving capacity: \(error.localizedDescription)")
         }
@@ -45,7 +44,7 @@ class FreeMemoryView: UITableViewCell {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
 
-        freeMemory.text = "Free \(formatter.string(for:gb)!) Gb"
+        freeMemory.text = "Free \(formatter.string(for: gb)!) Gb"
         freeMemory.textAlignment = .right
         progressView = UIProgressView()
         
@@ -64,7 +63,6 @@ class FreeMemoryView: UITableViewCell {
         vstack.axis = .vertical
         vstack.distribution = .fillEqually
         vstack.spacing = CGFloat(8)
-//        container.addSubview(vstack)
         contentView.addSubview(vstack)
         
         vstack.translatesAutoresizingMaskIntoConstraints = false

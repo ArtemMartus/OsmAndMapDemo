@@ -12,7 +12,7 @@ import Dispatch
 let RegionCellID = "regular"
 let FreeMemoryID = "memory"
 
-class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource{
+class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource {
     weak var rootView: RegionsView?
     var region: Region!
     var showMemory = true
@@ -77,9 +77,9 @@ class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if indexPath.section == 1 && showMemory || !showMemory{
+        if indexPath.section == 1 && showMemory || !showMemory {
             let item = region.subregions[indexPath.row]
-            if item.isDownloading || Repository.shared.checkMapDownloaded(id: item.formatId()){
+            if item.isDownloading || Repository.shared.checkMapDownloaded(id: item.formatId()) {
                 return // if we have any progress - no tap handling required
             }
             
@@ -89,7 +89,7 @@ class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource{
                 // for progress view to appear before real download starts
                 // in case we have other downloads in queue so user knows
                 // something is happening
-                Repository.shared.placeMapInDownloadQueue(id: item.formatId(),progress: { progress in
+                Repository.shared.placeMapInDownloadQueue(id: item.formatId(), progress: { progress in
                     //                    print("download progress \(value)")
                     DispatchQueue.main.async {
                         item.downloadProgress = progress.fractionCompleted

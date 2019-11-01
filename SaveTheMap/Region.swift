@@ -8,27 +8,27 @@
 
 import Foundation
 
-class Region{
+class Region {
     var name = ""
     var translation: String?
-    var hasSubregions: Bool {(subregions.count > 0) }
+    var hasSubregions: Bool { (subregions.count > 0) }
     var downloadable: Bool?
     var subregions = [Region]()
     var downloadProgress = 0.0
     var isDownloading = false
     var net_id = ""
     
-    func displayName()->String {
+    func displayName() -> String {
         let str = translation ?? name
         return str.prefix(1).capitalized + str.dropFirst()
     }
     
-    func formatId()->String{
+    func formatId() -> String {
         var str = net_id
-        if str.filter({$0=="_"}).count > 1 {
+        if str.filter({ $0=="_" }).count > 1 {
             let slices = str.split(separator: "_")
             var tmp = slices[1] + "_" + slices[0]
-            for i in 2..<slices.count{
+            for i in 2 ..< slices.count {
                 tmp += "_" + slices[i]
             }
             str = String(tmp)

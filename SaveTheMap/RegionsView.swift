@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RegionsView: UITableViewController{
+class RegionsView: UITableViewController {
     var delegate: RegionsTableDelegate!
     var region: Region!
     var showMemory = true
