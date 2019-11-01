@@ -12,14 +12,13 @@ class Region{
     var name = ""
     var translation: String?
     var hasSubregions: Bool {(subregions.count > 0) }
-    var map: String?
-    var downloadable: Bool { (map == "yes" || (!hasSubregions && map != "no")) }
+    var downloadable: Bool?
     var subregions = [Region]()
     var downloadProgress = 0.0
     var isDownloading = false
     var net_id = ""
     
-    func displayName()->String{
+    func displayName()->String {
         let str = translation ?? name
         return str.prefix(1).capitalized + str.dropFirst()
     }

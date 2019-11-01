@@ -102,7 +102,13 @@ class Repository {
         if region.name == "europe" { region.net_id = "europe" } else {
             region.net_id = region.name + "_" + parentId
         }
-        region.map = data.attributes["map"]
+        if let map = data.attributes["map"] {
+            if map == "yes" {
+                region.downloadable = true
+            } else if map == "no" {
+                region.downloadable = false
+            }
+        }
         if let tr = data.attributes["translate"] {
             var tmp = String(tr.split(separator: ";")[0])
             if tmp.contains("=") {

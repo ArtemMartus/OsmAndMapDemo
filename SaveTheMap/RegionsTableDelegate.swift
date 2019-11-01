@@ -58,7 +58,7 @@ class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource{
         cell.imageView?.image = UIImage(named: "ic_custom_show_on_map")!.withRenderingMode(.alwaysTemplate)
         cell.imageView?.tintColor = UIColor.gray
         
-        if item.downloadable {
+        if item.downloadable ?? (!item.hasSubregions) {
             if !item.isDownloading && Repository.shared.checkMapDownloaded(id: item.formatId()) {
                 cell.accessoryView = nil
                 cell.imageView?.tintColor = UIColor.green
@@ -83,7 +83,7 @@ class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource{
                 return // if we have any progress - no tap handling required
             }
             
-            if item.downloadable {
+            if item.downloadable ?? !item.hasSubregions {
                 item.isDownloading = true
                 // set downloadProgress to some minimum value just
                 // for progress view to appear before real download starts
