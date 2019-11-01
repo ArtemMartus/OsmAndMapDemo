@@ -93,10 +93,10 @@ class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource{
                     //                    print("download progress \(value)")
                     DispatchQueue.main.async {
                         item.downloadProgress = progress.fractionCompleted
-                        self.rootView?.tableView.reloadData()
-                        //                        tableView.beginUpdates()
-                        //                        tableView.reloadRows(at: [indexPath], with: .none)
-                        //                        tableView.endUpdates()
+                        if let cell = self.rootView?.tableView.cellForRow(at: indexPath)
+                            , let regular = cell as? RegionCell {
+                            regular.setProgress(item: item)
+                        }
                     }
                 }, done: { result in
                     DispatchQueue.main.async {
@@ -107,10 +107,7 @@ class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource{
                     }
                 })
                 tableView.reloadData()
-                //
-                //                tableView.beginUpdates()
-                //                tableView.reloadRows(at: [indexPath], with: .none)
-                //                tableView.endUpdates()
+
             } else if item.hasSubregions {
                 let viewController = RegionsView(region: item)
                 viewController.showMemory = false
