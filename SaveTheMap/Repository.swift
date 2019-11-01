@@ -27,7 +27,7 @@ class Repository {
             .appendingPathComponent(filename,isDirectory: false)
         do {
             if try fileUrl.checkResourceIsReachable() {
-//                print("FILE \(filename) AVAILABLE")
+                //                print("FILE \(filename) AVAILABLE")
                 return true
             }
         } catch{
@@ -36,19 +36,42 @@ class Repository {
         return false
     }
     
-    func placeMapInDownloadQueue(id: String!,progress:@escaping (Progress)->Void, done: @escaping (Bool)->Void){
+    typealias ProgressCallback =  (Progress)->Void
+    typealias DoneCallback = (Bool)->Void
+    
+    private var downloadQueue = [(String, ProgressCallback, DoneCallback)]()
+    
+    func placeMapInDownloadQueue(id: String!,progress:@escaping ProgressCallback, done: @escaping DoneCallback){
+        
+        if downloadQueue.isEmpty {
+            downloadQueue.append((id,progress,done))
+            download()
+        } else {
+            downloadQueue.append((id,progress,done))
+        }
+    }
+    
+    private func sequentialDownload(done: DoneCallback, value: Bool){
+        done(value)
+        if downloadQueue.count > 0 {
+            download()
+        }
+    }
+    
+    private func download(){
+        let (id,progress,done) = downloadQueue.first!
         
         let manager = Alamofire.SessionManager.default
         let destination: DownloadRequest.DownloadFileDestination = { _, _ in
             var documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             documentsURL.appendPathComponent(id)
-//            print(documentsURL)
+            //            print(documentsURL)
             return (documentsURL, [.createIntermediateDirectories])
         }
         
-        manager.download((base_url) + id, to: destination)
+        manager.download((self.base_url) + id, to: destination)
             
-            .downloadProgress(queue: queue, closure: progress)
+            .downloadProgress(closure: progress)
             .validate { request, response, temporaryURL, destinationURL in
                 print("Validate: success")
                 return .success
@@ -60,18 +83,18 @@ class Repository {
                 
                 if let statusCode = (response.response)?.statusCode {
                     print("Success: \(statusCode)")
-                    done(true)
+                    self.downloadQueue.removeFirst()
+                    self.sequentialDownload(done:done,value:true)
                 }
                 
             } else {
                 print("Response url-optional check failed")
             }
         }
-        
     }
     
+    
     private let base_url = "http://dl2.osmand.net/download?standard=yes&file="
-    private let queue = DispatchQueue(label: "maps loading queue")
     
     private func formRegion(data: XML.Element,parentId: String)->Region{
         let region = Region()
