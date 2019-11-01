@@ -14,8 +14,6 @@ class Region {
     var hasSubregions: Bool { (subregions.count > 0) }
     var downloadable: Bool?
     var subregions = [Region]()
-    var downloadProgress = 0.0
-    var isDownloading = false
     var net_id = ""
     
     func displayName() -> String {

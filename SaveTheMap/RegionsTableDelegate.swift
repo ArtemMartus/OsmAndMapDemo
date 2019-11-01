@@ -51,6 +51,8 @@ class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(
             withIdentifier: RegionCellID, for: indexPath) as! RegionCell
         let item = region.subregions[indexPath.row]
+        let progress = Repository.shared.downloadProgress[item.net_id]
+        let isDownloading = progress != nil
         
         
         cell.setProgress(item: item)
@@ -59,7 +61,7 @@ class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource {
         cell.imageView?.tintColor = UIColor.gray
         
         if item.downloadable ?? (!item.hasSubregions) {
-            if !item.isDownloading && Repository.shared.checkMapDownloaded(id: item.formatId()) {
+            if !isDownloading && Repository.shared.checkMapDownloaded(id: item.formatId()) {
                 cell.accessoryView = nil
                 cell.imageView?.tintColor = UIColor.green
                 //                print("Item \(item.formatId()) downloaded")
@@ -79,12 +81,15 @@ class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource {
         
         if indexPath.section == 1 && showMemory || !showMemory {
             let item = region.subregions[indexPath.row]
-            if item.isDownloading || Repository.shared.checkMapDownloaded(id: item.formatId()) {
+            let repo = Repository.shared
+            let isDownloading = repo.downloadProgress[item.net_id] != nil
+            
+            if isDownloading || Repository.shared.checkMapDownloaded(id: item.formatId()) {
                 return // if we have any progress - no tap handling required
             }
             
             if item.downloadable ?? !item.hasSubregions {
-                item.isDownloading = true
+                repo.downloadProgress[item.net_id] = 0
                 // set downloadProgress to some minimum value just
                 // for progress view to appear before real download starts
                 // in case we have other downloads in queue so user knows
@@ -92,7 +97,7 @@ class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource {
                 Repository.shared.placeMapInDownloadQueue(id: item.formatId(), progress: { progress in
                     //                    print("download progress \(value)")
                     DispatchQueue.main.async {
-                        item.downloadProgress = progress.fractionCompleted
+                        repo.downloadProgress[item.net_id] = progress.fractionCompleted
                         if let cell = self.rootView?.tableView.cellForRow(at: indexPath)
                             , let regular = cell as? RegionCell {
                             regular.setProgress(item: item)
@@ -100,8 +105,7 @@ class RegionsTableDelegate:NSObject,UITableViewDelegate, UITableViewDataSource {
                     }
                 }, done: { result in
                     DispatchQueue.main.async {
-                        item.isDownloading = false
-                        item.downloadProgress = 0
+                        repo.downloadProgress.removeValue(forKey: item.net_id)
                         print("done called")
                         self.rootView?.tableView.reloadData()
                     }

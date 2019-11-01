@@ -10,7 +10,7 @@ import UIKit
 
 class RegionCell: UITableViewCell {
     private var progressView: UIProgressView!
-    
+         
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         commonInit()
@@ -22,8 +22,10 @@ class RegionCell: UITableViewCell {
     
     func setProgress(item: Region!) {
         var hide = true
-        if item.isDownloading && item.downloadProgress < 1.0 {
-            progressView.progress = Float(item.downloadProgress)
+        let repo = Repository.shared
+        
+        if let progress = repo.downloadProgress[item.net_id] {
+            progressView.progress = Float(progress)
             hide = false
         }
         

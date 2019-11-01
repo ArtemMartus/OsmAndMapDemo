@@ -17,6 +17,8 @@ class Repository {
         return instance
     }()
     
+    // region_id : %[0.0 - 1.0] 
+    var downloadProgress = [String : Double]()
     var region: Region!
     
     func checkMapDownloaded(id filename: String) -> Bool{
